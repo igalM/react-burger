@@ -39,7 +39,6 @@ const Input = props => {
             </select>
             break;
         default:
-        case ('input'):
             inputElement = <input
                 className={classes.join(' ')}
                 {...props.elementConfig}
