@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Order from '../../components/Order/Order/Order';
+import Order from '../../components/Order/Order';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from "../../store/actions";

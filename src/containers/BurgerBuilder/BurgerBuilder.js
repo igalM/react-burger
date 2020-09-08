@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -8,6 +8,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from '../../store/actions';
+import styles from './BurgerBuilder.module.scss';
 
 const BurgerBuilder = ({ history }) => {
 
@@ -57,24 +58,24 @@ const BurgerBuilder = ({ history }) => {
     }
 
     let orderSummary = null;
-
+    let buildControls = null;
     let burger = error ? <p>Site broken!</p> : <Spinner />;
 
     if (ingredients) {
-        burger = (
-            <Fragment>
-                <Burger ingredients={ingredients} />
-                <BuildControls
-                    added={onAddIngredient}
-                    removed={onRemoveIngredient}
-                    disabled={disabled}
-                    price={totalPrice}
-                    isAuthenticated={isAuthenticated}
-                    purchasable={updatePurchasableState(ingredients)}
-                    orderBtnClick={purchaseHandler}
-                />
-            </Fragment>
-        );
+        burger = <div className={styles.Burger}>
+            <Burger ingredients={ingredients} />
+        </div>
+
+        buildControls = <BuildControls
+            added={onAddIngredient}
+            removed={onRemoveIngredient}
+            disabled={disabled}
+            price={totalPrice}
+            isAuthenticated={isAuthenticated}
+            purchasable={updatePurchasableState(ingredients)}
+            orderBtnClick={purchaseHandler}
+        />
+
         orderSummary = <OrderSummary
             cancel={purchaseCancelHandler}
             continue={purchaseContinuedHandler}
@@ -84,12 +85,13 @@ const BurgerBuilder = ({ history }) => {
     }
 
     return (
-        <Fragment>
+        <div className={styles.BurgerBuilder}>
             <Modal show={purchasing} hide={purchaseCancelHandler}>
                 {orderSummary}
             </Modal>
             {burger}
-        </Fragment>
+            {buildControls}
+        </div>
     );
 }
 

@@ -1,0 +1,38 @@
+.Checkout {
+    display: flex;
+    flex-direction: column;
+    .Burger {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        h1 {
+            text-align: center;
+        }
+    }
+    .ContactData {
+        margin: 20px auto;
+        width: 90%;
+        box-shadow: 0 2px 3px #ccc;
+        border: 1px solid #eee;
+        padding: 1% 2%;
+        box-sizing: border-box;
+
+        .Title {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        Button {
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        @media (min-width: 600px) {
+            width: 500px;
+        }
+    }
+}

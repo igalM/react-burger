@@ -1,0 +1,11 @@
+.BurgerBuilder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .Burger {
+        height: 100%;
+        margin-bottom: 20px;
+        display: flex;
+        overflow: auto;
+    }
+}
