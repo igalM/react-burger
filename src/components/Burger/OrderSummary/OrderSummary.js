@@ -1,5 +1,4 @@
-import React from 'react';
-import WrapperComponent from '../../../hoc/WrapperComponent/WrapperComponent';
+import React, { Fragment } from 'react';
 import { CustomButton } from '../../UI/Button/Button';
 
 const OrderSummary = (props) => {
@@ -9,7 +8,7 @@ const OrderSummary = (props) => {
         });
 
     return (
-        <WrapperComponent>
+        <Fragment>
             <h3>Your Order Summary</h3>
             <p>A delicious burger with the following ingredients:</p>
             <ul>
@@ -18,7 +17,7 @@ const OrderSummary = (props) => {
             <p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
             <CustomButton onClick={props.continue} className="success">CONTINUE</CustomButton>
             <CustomButton onClick={props.cancel} className="danger">CANCEL</CustomButton>
-        </WrapperComponent>
+        </Fragment>
     );
 }
 

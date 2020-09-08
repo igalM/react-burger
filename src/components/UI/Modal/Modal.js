@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import styles from './Modal.module.scss';
-import WrapperComponent from '../../../hoc/WrapperComponent/WrapperComponent';
 import Backdrop from '../Backdrop/Backdrop';
 
 const Modal = ({ show, hide, children }) => {
@@ -11,12 +10,12 @@ const Modal = ({ show, hide, children }) => {
     }
 
     return (
-        <WrapperComponent>
+        <Fragment>
             <Backdrop show={show} hide={hide} />
             <div className={modalClasses.join(' ')}>
                 {children}
             </div>
-        </WrapperComponent>
+        </Fragment>
     );
 };
 

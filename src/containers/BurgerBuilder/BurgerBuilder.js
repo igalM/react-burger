@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import WrapperComponent from '../../hoc/WrapperComponent/WrapperComponent';
+import React, { useState, Fragment } from 'react';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -63,7 +62,7 @@ const BurgerBuilder = ({ history }) => {
 
     if (ingredients) {
         burger = (
-            <WrapperComponent>
+            <Fragment>
                 <Burger ingredients={ingredients} />
                 <BuildControls
                     added={onAddIngredient}
@@ -74,7 +73,7 @@ const BurgerBuilder = ({ history }) => {
                     purchasable={updatePurchasableState(ingredients)}
                     orderBtnClick={purchaseHandler}
                 />
-            </WrapperComponent>
+            </Fragment>
         );
         orderSummary = <OrderSummary
             cancel={purchaseCancelHandler}
@@ -85,12 +84,12 @@ const BurgerBuilder = ({ history }) => {
     }
 
     return (
-        <WrapperComponent>
+        <Fragment>
             <Modal show={purchasing} hide={purchaseCancelHandler}>
                 {orderSummary}
             </Modal>
             {burger}
-        </WrapperComponent>
+        </Fragment>
     );
 }
 

@@ -63,7 +63,7 @@ const Auth = props => {
                     SUBMIT
                 </CustomButton>
                 {isSignup ? <h5>Already registered? Click <u onClick={changeAuthModeHandler}>Here</u></h5>
-                    : <h5>Click <u onClick={changeAuthModeHandler}>Here</u> to Sign Up</h5>}
+                    : <h5>Don't have an account? Click <u onClick={changeAuthModeHandler}>Here</u> to Sign Up</h5>}
             </Form>
         </Formik>
     </div>
@@ -86,8 +86,8 @@ const Auth = props => {
 
     return (
         <div className={styles.Auth}>
-            <h2>{isSignup ? 'Sign up to start ordering delicious BURGERS!'
-                : 'Log in to continue ordering delicious BURGERS!'}</h2>
+            <h2>{isSignup ? 'Sign Up'
+                : 'Log In'}</h2>
             {authRedirect}
             {errorMsg}
             {form}

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import WrapperComponent from '../WrapperComponent/WrapperComponent';
+import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import styles from './Layout.module.scss';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
@@ -23,7 +22,7 @@ const Layout = ({ children }) => {
     const openSideDrawerHandler = () => setShowSideDrawer(!showSideDrawer);
 
     return (
-        <WrapperComponent>
+        <Fragment>
             <Toolbar
                 isAuthenticated={isAuthenticated}
                 openSideDrawer={openSideDrawerHandler} />
@@ -35,7 +34,7 @@ const Layout = ({ children }) => {
             <main className={styles.content}>
                 {children}
             </main>
-        </WrapperComponent>
+        </Fragment>
     );
 }
 
