@@ -1,149 +1,98 @@
-import React, { Component } from 'react';
-import Input from "../../components/UI/Input/Input";
-import Button from '../../components/UI/Button/Button';
+import React, { useEffect, useState, useCallback } from 'react';
 import styles from './Auth.module.scss';
 import * as actionsCreators from "../../store/actions";
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { Redirect } from 'react-router-dom';
-import {updateObject, checkValidity} from '../../shared/utility';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { InputField } from '../../components/UI/Input/Input';
+import { CustomButton } from '../../components/UI/Button/Button';
 
-class Auth extends Component {
+const Auth = props => {
+    const [isSignup, setIsSignup] = useState(true);
+    const [loadingAuthMode, setLoadingAuthMode] = useState(false);
+    const values = { email: '', password: '' };
+    const validationSchema = Yup.object().shape({
+        password: Yup.string()
+            .required('Required'),
+        email: Yup.string()
+            .email('Must be a valid email')
+            .required('Required'),
+    });
 
-    state = {
-        authForm: {
-            email: {
-                value: '',
-                elementType: 'input',
-                elementConfig: {
-                    type: 'email',
-                    placeholder: 'Your Email'
-                },
-                validation: {
-                    required: true,
-                    isEmail: true
-                },
-                valid: false,
-                touched: false
-            },
-            password: {
-                value: '',
-                elementType: 'input',
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Your Password'
-                },
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            }
-        },
-        isSignup: true
+    const dispatch = useDispatch();
+
+    const onSubmitAuth = (email, password, isSignup) => dispatch(actionsCreators.auth(email, password, isSignup));
+    const onSetAuthRedirectPath = useCallback(() => dispatch(actionsCreators.setAuthRedirectPath('/')), [dispatch]);
+
+    const loading = useSelector(state => state.authReducer.loading);
+    const error = useSelector(state => state.authReducer.error);
+    const isAuthenticated = useSelector(state => state.authReducer.token !== null);
+    const authRedirectPath = useSelector(state => state.authReducer.authRedirectPath);
+    const isBuildingBurger = useSelector(state => state.ingredientsReducer.isBuildingBurger);
+
+
+    useEffect(() => {
+        if (!isBuildingBurger && authRedirectPath !== '/') {
+            onSetAuthRedirectPath();
+        }
+    }, [onSetAuthRedirectPath, isBuildingBurger, authRedirectPath]);
+
+    const changeAuthModeHandler = () => {
+        setLoadingAuthMode(true);
+        setTimeout(() => {
+            setIsSignup(!isSignup);
+            setLoadingAuthMode(false);
+        }, 200);
+    };
+
+    let form = <div>
+        <Formik
+            onSubmit={(values) => {
+                onSubmitAuth(values.email, values.password, isSignup);
+            }}
+            initialValues={values}
+            validationSchema={validationSchema}>
+            <Form>
+                <InputField formikKey="email" label="Your Email" />
+                <InputField formikKey="password" label="Your Password" type="password" />
+                <CustomButton
+                    type="submit"
+                    className="success">
+                    SUBMIT
+                </CustomButton>
+                {isSignup ? <h5>Already registered? Click <u onClick={changeAuthModeHandler}>Here</u></h5>
+                    : <h5>Click <u onClick={changeAuthModeHandler}>Here</u> to Sign Up</h5>}
+            </Form>
+        </Formik>
+    </div>
+
+    if (loading || loadingAuthMode) {
+        form = <Spinner />;
     }
 
-    componentDidMount() {
-        if (!this.props.isBuildingBurger && this.props.authRedirectPath !== '/') {
-            this.props.onSetAuthRedirectPath();
-        }
+    let authRedirect = null;
+
+    if (isAuthenticated) {
+        authRedirect = <Redirect to={authRedirectPath} />
     }
 
-    inputChangedHandler = (event, el) => {
-        const updatedControls = updateObject(this.state.authForm, {
-            [el]: updateObject(this.state.authForm[el], {
-                value: event.target.value,
-                valid: checkValidity(this.state.authForm[el].validation, event.target.value),
-                touched: true
-            })
-        });
-        let formIsValid = true;
-        for (let input in updatedControls) {
-            formIsValid = updatedControls[input].valid && formIsValid;
-        }
-        this.setState({ authForm: updatedControls });
+    let errorMsg = null;
+
+    if (error) {
+        errorMsg = <p>{error.message}</p>;
     }
 
-    submitForm = (e) => {
-        e.preventDefault();
-        this.props.onSubmitAuth(
-            this.state.authForm.email.value,
-            this.state.authForm.password.value,
-            this.state.isSignup);
-    }
-
-    changeAuthModeHandler = () => {
-        this.setState(prevState => ({ isSignup: !prevState.isSignup }));
-    }
-
-    render() {
-        const formElements = [];
-
-        for (let key in this.state.authForm) {
-            formElements.push({
-                id: key,
-                config: this.state.authForm[key]
-            });
-        }
-
-        let form = <form onSubmit={(e) => this.submitForm(e)}>
-            {formElements.map(el => {
-                return <Input
-                    key={el.id}
-                    elementType={el.config.elementType}
-                    elementConfig={el.config.elementConfig}
-                    value={el.config.value}
-                    valid={!el.config.valid}
-                    shouldValidate={el.config.validation}
-                    touched={el.config.touched}
-                    changed={(event) => this.inputChangedHandler(event, el.id)}
-                />
-            })}
-            <Button btnType="Success">SUBMIT</Button>
-        </form>;
-
-        if (this.props.loading) {
-            form = <Spinner />;
-        }
-
-        let authRedirect = null;
-
-        if (this.props.isAuthenticated) {
-            authRedirect = <Redirect to={this.props.authRedirectPath} />
-        }
-
-        let errorMsg = null;
-
-        if (this.props.error) {
-            errorMsg = <p>{this.props.error.message}</p>;
-        }
-
-        return (
-            <div className={styles.Auth}>
-                {authRedirect}
-                {errorMsg}
-                {form}
-                <Button
-                    clicked={this.changeAuthModeHandler}
-                    btnType="Danger">SWITCH TO {this.state.isSignup ? 'SIGN IN' : 'SIGN UP'}
-                </Button>
-            </div>
-        )
-    }
+    return (
+        <div className={styles.Auth}>
+            <h2>{isSignup ? 'Sign up to start ordering delicious BURGERS!'
+                : 'Log in to continue ordering delicious BURGERS!'}</h2>
+            {authRedirect}
+            {errorMsg}
+            {form}
+        </div>
+    )
 }
 
-const mapStateToProps = state => ({
-    loading: state.authReducer.loading,
-    error: state.authReducer.error,
-    isAuthenticated: state.authReducer.token !== null,
-    authRedirectPath: state.authReducer.authRedirectPath,
-    isBuildingBurger: state.ingredientsReducer.isBuildingBurger
-})
-
-const mapDispatchToProps = dispatch => ({
-    onSubmitAuth: (email, password, isSignup) => dispatch(actionsCreators.auth(email, password, isSignup)),
-    onSetAuthRedirectPath: () => dispatch(actionsCreators.setAuthRedirectPath('/'))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default Auth;

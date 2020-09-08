@@ -1,4 +1,6 @@
 .Modal {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     z-index: 500;
     background-color: white;

@@ -1,30 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './Modal.module.scss';
 import WrapperComponent from '../../../hoc/WrapperComponent/WrapperComponent';
 import Backdrop from '../Backdrop/Backdrop';
 
-class Modal extends Component {
+const Modal = ({ show, hide, children }) => {
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
+    const modalClasses = [styles.Modal];
+    if (show) {
+        modalClasses.push(styles.show);
     }
 
-    render() {
-
-        const modalClasses = [styles.Modal];
-        if (this.props.show) {
-            modalClasses.push(styles.show);
-        }
-
-        return (
-            <WrapperComponent>
-                <Backdrop show={this.props.show} hide={this.props.hide} />
-                <div className={modalClasses.join(' ')}>
-                    {this.props.children}
-                </div>
-            </WrapperComponent>
-        );
-    }
+    return (
+        <WrapperComponent>
+            <Backdrop show={show} hide={hide} />
+            <div className={modalClasses.join(' ')}>
+                {children}
+            </div>
+        </WrapperComponent>
+    );
 };
 
-export default Modal;
+export default React.memo(Modal, (prevProps, nextProps) =>
+    nextProps.show === prevProps.show &&
+    nextProps.children === prevProps.children);

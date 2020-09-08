@@ -1,16 +1,19 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useCallback } from 'react';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import Logout from './containers/Auth/Logout/Logout';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from './store/actions/index';
 
 const Checkout = lazy(() => import('./containers/Checkout/Checkout'));
 const Orders = lazy(() => import('./containers/Orders/Orders'));
 const Auth = lazy(() => import('./containers/Auth/Auth'));
 
-const App = ({ onTryAutomaticSignIn, isAuthenticated }) => {
+const App = props => {
+  const isAuthenticated = useSelector(state => state.ingredientsReducer.ingredients);
+  const dispatch = useDispatch();
+  const onTryAutomaticSignIn = useCallback(() => dispatch(actions.checkAuthState()), [dispatch]);
 
   useEffect(() => {
     onTryAutomaticSignIn();
@@ -42,15 +45,6 @@ const App = ({ onTryAutomaticSignIn, isAuthenticated }) => {
       </Layout>
     </BrowserRouter>
   );
-
 }
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.token !== null
-})
-
-const mapDispatchToProps = dispatch => ({
-  onTryAutomaticSignIn: () => dispatch(actions.checkAuthState())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

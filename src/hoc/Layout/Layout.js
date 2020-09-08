@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import WrapperComponent from '../WrapperComponent/WrapperComponent';
 import styles from './Layout.module.scss';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionCreators from '../../store/actions';
 
-const Layout = ({ isAuthenticated, children }) => {
+const Layout = ({ children }) => {
 
     const [showSideDrawer, setShowSideDrawer] = useState(false);
+
+    const dispatch = useDispatch();
+    const onInitIngredients = useCallback(() => dispatch(actionCreators.fetchIngredients()), [dispatch]);
+
+    const isAuthenticated = useSelector(state => state.authReducer.token !== null);
+
+    useEffect(() => {
+        onInitIngredients();
+    }, [onInitIngredients]);
 
     const sideDrawerClosedHandler = () => setShowSideDrawer(false);
     const openSideDrawerHandler = () => setShowSideDrawer(!showSideDrawer);
@@ -29,8 +39,4 @@ const Layout = ({ isAuthenticated, children }) => {
     );
 }
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.authReducer.token != null
-});
-
-export default connect(mapStateToProps, null)(Layout);
+export default Layout;

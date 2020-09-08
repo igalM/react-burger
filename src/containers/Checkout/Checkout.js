@@ -3,9 +3,14 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import { Route, Redirect } from 'react-router-dom';
 import ContactData from './ContactData/ContactData';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const Checkout = ({ ingredients, purchased, history, match }) => {
+// COMBINE CONTACT DATA TO THIS COMPONENT //
+
+const Checkout = ({ history, match }) => {
+
+    const ingredients = useSelector(state => state.ingredientsReducer.ingredients)
+    const purchased = useSelector(state => state.ordersReducer.purchased)
 
     const checkoutCanceledHandler = () => {
         history.goBack();
@@ -37,9 +42,4 @@ const Checkout = ({ ingredients, purchased, history, match }) => {
     return summary;
 }
 
-const mapStateToProps = state => ({
-    ingredients: state.ingredientsReducer.ingredients,
-    purchased: state.ordersReducer.purchased
-})
-
-export default connect(mapStateToProps, null)(Checkout);
+export default Checkout;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './CheckoutSummary.module.scss';
 import Burger from '../../Burger/Burger';
-import Button from '../../UI/Button/Button';
+import { CustomButton } from '../../UI/Button/Button';
 
 const CheckoutSummary = props => (
     <div className={styles.CheckoutSummary}>
@@ -9,8 +9,8 @@ const CheckoutSummary = props => (
         <div className={styles.Burger}>
             <Burger ingredients={props.ingredients} />
         </div>
-        <Button btnType="Danger" clicked={props.checkoutCanceled}>CANCEL</Button>
-        <Button btnType="Success" clicked={props.checkoutContinued}>CONTINUE</Button>
+        <CustomButton className="danger" onClick={props.checkoutCanceled}>CANCEL</CustomButton>
+        <CustomButton className="success" onClick={props.checkoutContinued}>CONTINUE</CustomButton>
     </div>
 );
 

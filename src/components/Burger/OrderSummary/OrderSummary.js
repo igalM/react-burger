@@ -1,6 +1,6 @@
 import React from 'react';
 import WrapperComponent from '../../../hoc/WrapperComponent/WrapperComponent';
-import Button from '../../UI/Button/Button';
+import { CustomButton } from '../../UI/Button/Button';
 
 const OrderSummary = (props) => {
     const ingredients = Object.keys(props.ingredients)
@@ -16,8 +16,8 @@ const OrderSummary = (props) => {
                 {ingredients}
             </ul>
             <p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
-            <Button clicked={props.cancel} btnType="Danger">CANCEL</Button>
-            <Button clicked={props.continue} btnType="Success">CONTINUE</Button>
+            <CustomButton onClick={props.continue} className="success">CONTINUE</CustomButton>
+            <CustomButton onClick={props.cancel} className="danger">CANCEL</CustomButton>
         </WrapperComponent>
     );
 }

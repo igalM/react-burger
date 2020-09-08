@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Order from '../../components/Order/Order/Order';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from "../../store/actions";
 
+const Orders = props => {
 
-const Orders = ({ orders, loading, token, userId, onInitOrders }) => {
+    const dispatch = useDispatch();
+    const onInitOrders = useCallback((token, userId) => dispatch(actionCreators.fetchOrders(token, userId)), [dispatch]);
+
+    const orders = useSelector(state => state.ordersReducer.orders);
+    const loading = useSelector(state => state.ordersReducer.loading);
+    const token = useSelector(state => state.authReducer.token);
+    const userId = useSelector(state => state.authReducer.id);
 
     useEffect(() => {
         onInitOrders(token, userId);
@@ -31,15 +37,4 @@ const Orders = ({ orders, loading, token, userId, onInitOrders }) => {
     );
 }
 
-const mapStateToProps = state => ({
-    orders: state.ordersReducer.orders,
-    loading: state.ordersReducer.loading,
-    token: state.authReducer.token,
-    userId: state.authReducer.id
-})
-
-const mapDispatchToProps = dispatch => ({
-    onInitOrders: (token, userId) => dispatch(actionCreators.fetchOrders(token, userId)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
+export default withErrorHandler(Orders, axios);
