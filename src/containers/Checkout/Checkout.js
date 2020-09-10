@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actionsCreators from '../../store/actions';
 
-const Checkout = props => {
+const Checkout = ({ history }) => {
     const ingredients = useSelector(state => state.ingredientsReducer.ingredients);
     const purchased = useSelector(state => state.ordersReducer.purchased);
     const totalPrice = useSelector(state => state.ingredientsReducer.totalPrice);
@@ -23,6 +23,8 @@ const Checkout = props => {
 
     const onOrderBurger = (order, token) => dispatch(actionsCreators.purchaseBurger(order, token))
 
+
+    const cancelOrder = () => history.push('/');
 
     let orderSummary = <Redirect to="/" />;
     if (ingredients) {
@@ -82,6 +84,9 @@ const Checkout = props => {
                 <CustomButton type="submit" className="success">ORDER</CustomButton>
             </Form>
         </Formik>
+        <div className={styles.CancelButton}>
+            <CustomButton type="submit" className="danger" onClick={cancelOrder}>CANCEL</CustomButton>
+        </div>
     </div>
 
     if (loading) {

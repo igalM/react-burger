@@ -1,23 +1,26 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { CustomButton } from '../../UI/Button/Button';
+import styles from './OrderSummary.module.scss';
 
-const OrderSummary = (props) => {
-    const ingredients = Object.keys(props.ingredients)
+const OrderSummary = ({ ingredients, price, continuePurchase, cancel }) => {
+    const ings = Object.keys(ingredients)
         .map(key => {
-            return <li key={key}><strong>{key}: </strong>{props.ingredients[key]}</li>;
+            return <li key={key}><strong>{key}: </strong>{ingredients[key]}</li>;
         });
 
     return (
-        <Fragment>
+        <div className={styles.OrderSummary}>
             <h3>Your Order Summary</h3>
             <p>A delicious burger with the following ingredients:</p>
             <ul>
-                {ingredients}
+                {ings}
             </ul>
-            <p><strong>Total Price: {props.price.toFixed(2)}</strong></p>
-            <CustomButton onClick={props.continue} className="success">CONTINUE</CustomButton>
-            <CustomButton onClick={props.cancel} className="danger">CANCEL</CustomButton>
-        </Fragment>
+            <p><strong>Total Price: {price.toFixed(2)}</strong></p>
+            <div className={styles.Buttons}>
+                <CustomButton onClick={continuePurchase} className="success">CONTINUE</CustomButton>
+                <CustomButton onClick={cancel} className="danger">CANCEL</CustomButton>
+            </div>
+        </div >
     );
 }
 

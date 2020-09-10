@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './Control.module.scss';
 
-const Control = (props) => (
+const Control = ({ label, disabled, removed, added }) => (
     <div className={styles.Control}>
-        <div className={styles.Label}>{props.label}</div>
+        <div className={styles.Label}>{label}</div>
         <button
-            disabled={props.disabled}
-            onClick={props.removed}
+            disabled={disabled}
+            onClick={removed}
             className={styles.Less}>Less</button>
         <button
-            onClick={props.added}
+            onClick={added}
             className={styles.More}>More</button>
     </div>
 )

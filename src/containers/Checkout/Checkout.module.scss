@@ -31,6 +31,10 @@
             margin: 20px auto;
         }
 
+        .CancelButton {
+            display: flex;
+        }
+
         @media (min-width: 600px) {
             width: 500px;
         }

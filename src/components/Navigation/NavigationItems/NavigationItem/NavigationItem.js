@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './NavigationItem.module.scss';
 import { NavLink } from 'react-router-dom';
+import { DrawerContext } from '../../../../contexts/drawer-context';
 
-const NavigationItem = (props) => (
-    <li className={styles.NavigationItem}>
+const NavigationItem = ({ exact, link, children }) => {
+
+    const toggle = useContext(DrawerContext).toggleDrawer;
+    const isMobile = useContext(DrawerContext).isMobile;
+
+    return <li className={styles.NavigationItem}>
         <NavLink
-            exact={props.exact}
+            onClick={isMobile ? toggle : null}
+            exact={exact}
             activeClassName={styles.active}
-            to={props.link}>{props.children}
+            to={link}>{children}
         </NavLink>
     </li>
-);
+};
 
 export default NavigationItem;

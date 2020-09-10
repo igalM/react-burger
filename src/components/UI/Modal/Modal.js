@@ -1,24 +1,11 @@
-import React, {Fragment} from 'react';
-import styles from './Modal.module.scss';
-import Backdrop from '../Backdrop/Backdrop';
+import React from 'react';
+import { Dialog } from '@material-ui/core';
 
-const Modal = ({ show, hide, children }) => {
+const Modal = ({ open, closeHandler, children }) => {
+    return <Dialog open={open} onClose={closeHandler}>
+        {children}
+    </Dialog>
+}
 
-    const modalClasses = [styles.Modal];
-    if (show) {
-        modalClasses.push(styles.show);
-    }
 
-    return (
-        <Fragment>
-            <Backdrop show={show} hide={hide} />
-            <div className={modalClasses.join(' ')}>
-                {children}
-            </div>
-        </Fragment>
-    );
-};
-
-export default React.memo(Modal, (prevProps, nextProps) =>
-    nextProps.show === prevProps.show &&
-    nextProps.children === prevProps.children);
+export default Modal;

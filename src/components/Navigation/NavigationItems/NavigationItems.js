@@ -3,13 +3,14 @@ import styles from './NavigationItems.module.scss';
 import NavigationItem from './NavigationItem/NavigationItem';
 
 
-const NavigationItems = props => {
+const NavigationItems = ({ isAuthenticated }) => {
+
     let authenticatedRoutes = <ul className={styles.NavigationItems}>
         <NavigationItem link="/" exact>Burger Builder</NavigationItem>
         <NavigationItem link="/orders">Orders</NavigationItem>
         <NavigationItem link="/logout">Logout</NavigationItem>
     </ul>;
-    if (!props.isAuthenticated) {
+    if (!isAuthenticated) {
         authenticatedRoutes = <ul className={styles.NavigationItems}>
             <NavigationItem link="/" exact>Burger Builder</NavigationItem>
             <NavigationItem link="/auth">Authenticate</NavigationItem>

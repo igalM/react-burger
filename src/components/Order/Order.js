@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './Order.module.scss';
 
-const Order = props => {
-    const ingredients = [];
-    for (let igName in props.ingredients) {
-        ingredients.push({
+const Order = ({ ingredients, price, date }) => {
+    const ings = [];
+    for (let igName in ingredients) {
+        ings.push({
             ingredient: igName,
-            amount: props.ingredients[igName]
+            amount: ingredients[igName]
         });
     }
-    const output = ingredients.map(ig => {
+    const output = ings.map(ig => {
         return <span
             key={ig.ingredient}
             style={{
@@ -25,8 +25,8 @@ const Order = props => {
     return (
         <div className={styles.Order}>
             <p>Ingredients: {output}</p>
-            <p>Price: <strong>USD {props.price.toFixed(2)}</strong></p>
-            <p>Date Ordered: {props.date}</p>
+            <p>Price: <strong>USD {price.toFixed(2)}</strong></p>
+            <p>Date Ordered: {date}</p>
         </div>
     );
 }

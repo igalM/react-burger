@@ -41,10 +41,8 @@ const BurgerBuilder = ({ history }) => {
         }
     }
 
-    const purchaseCancelHandler = () => {
-        setPurchasing(false);
-    }
-
+    const purchaseCancelHandler = () => setPurchasing(false);
+    
     const purchaseContinuedHandler = () => {
         onInitPurchase();
         history.push('/checkout');
@@ -78,7 +76,7 @@ const BurgerBuilder = ({ history }) => {
 
         orderSummary = <OrderSummary
             cancel={purchaseCancelHandler}
-            continue={purchaseContinuedHandler}
+            continuePurchase={purchaseContinuedHandler}
             ingredients={ingredients}
             price={totalPrice}
         />
@@ -86,7 +84,7 @@ const BurgerBuilder = ({ history }) => {
 
     return (
         <div className={styles.BurgerBuilder}>
-            <Modal show={purchasing} hide={purchaseCancelHandler}>
+            <Modal open={purchasing} onClose={purchaseCancelHandler}>
                 {orderSummary}
             </Modal>
             {burger}
