@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './Spinner.module.scss';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Spinner: React.FC = () => (
-    <div className={styles.Loader}>Loading...</div>
+    <CircularProgress color="secondary" />
 );
 
 export default Spinner;

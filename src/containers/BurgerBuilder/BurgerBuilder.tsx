@@ -54,9 +54,6 @@ const BurgerBuilder: React.FC<RouteComponentProps> = ({ history }) => {
     const disabled: Ingredients = {
         ...ingredients
     };
-    // for (let key in disabled) {
-    //     disabled[key] = 
-    // }
 
     let orderSummary = null;
     let buildControls = null;

@@ -11,7 +11,7 @@ import { CustomButton } from '../../components/UI/Button/Button';
 import { User } from '../../types';
 import { RootState } from '../../store/reducers';
 
-const Auth: React.FC = props => {
+const Auth: React.FC = () => {
     const [isSignup, setIsSignup] = useState(true);
     const [loadingAuthMode, setLoadingAuthMode] = useState(false);
     const values = { email: '', password: '', isSignup: isSignup };

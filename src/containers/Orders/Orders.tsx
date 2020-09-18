@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from "../../store/actions";
 import { RootState } from '../../store/reducers';
 
-const Orders: React.FC = props => {
+const Orders: React.FC = () => {
 
     const dispatch = useDispatch();
     const onInitOrders = useCallback((token, userId) => dispatch(actionCreators.fetchOrders(token, userId)), [dispatch]);

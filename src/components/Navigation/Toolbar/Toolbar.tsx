@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-// maybe need to bring back container ? //
 const ResponsiveDrawer: React.FC<Props> = ({ isAuthenticated }: Props) => {
     const classes = useStyles();
     const drawerContext = useContext(DrawerContext);
