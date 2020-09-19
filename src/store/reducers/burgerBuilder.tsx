@@ -5,24 +5,15 @@ import { IngredientActions } from '../actions/burgerBuilder';
 
 interface IngredientsState {
     ingredients: Ingredients,
-    totalPrice: number,
     error: boolean,
     isBuildingBurger: boolean
 }
 
 const initialState: IngredientsState = {
     ingredients: { bacon: 0, salad: 0, cheese: 0, meat: 0 },
-    totalPrice: 4,
     error: false,
     isBuildingBurger: false
 }
-
-const INGREDIENT_PRICE: Ingredients = {
-    salad: 0.5,
-    meat: 1.3,
-    cheese: 0.4,
-    bacon: 0.7
-};
 
 const ingredientsReducer = (state = initialState, action: IngredientActions): IngredientsState => {
     switch (action.type) {
@@ -44,7 +35,6 @@ const addIngredientHelper = (state: IngredientsState, payload: string): Ingredie
     const updatedIngredients = updateObject(state.ingredients, updatedIngredient);
     const updatedState = {
         ingredients: updatedIngredients,
-        totalPrice: state.totalPrice + INGREDIENT_PRICE[payload],
         isBuildingBurger: true
     };
     return updateObject(state, updatedState);
@@ -55,7 +45,6 @@ const removeIngredientHelper = (state: IngredientsState, payload: string): Ingre
     const updatedIngredients = updateObject(state.ingredients, updatedIngredient);
     const updatedState = {
         ingredients: updatedIngredients,
-        totalPrice: state.totalPrice - INGREDIENT_PRICE[payload],
         isBuildingBurger: true
     };
     return updateObject(state, updatedState);

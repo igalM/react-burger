@@ -5,17 +5,17 @@ import Order from '../../components/Order/Order';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from "../../store/actions";
-import { RootState } from '../../store/reducers';
+import { selectOrdersLoadingState, selectOrdersState, selectTokenState, selectUserIdState } from '../../store/reducers/selectors';
 
 const Orders: React.FC = () => {
 
     const dispatch = useDispatch();
     const onInitOrders = useCallback((token, userId) => dispatch(actionCreators.fetchOrders(token, userId)), [dispatch]);
 
-    const orders = useSelector((state: RootState) => state.ordersReducer.orders);
-    const loading = useSelector((state: RootState) => state.ordersReducer.loading);
-    const token = useSelector((state: RootState) => state.authReducer.token);
-    const userId = useSelector((state: RootState) => state.authReducer.userId);
+    const orders = useSelector(selectOrdersState);
+    const loading = useSelector(selectOrdersLoadingState);
+    const token = useSelector(selectTokenState);
+    const userId = useSelector(selectUserIdState);
 
     useEffect(() => {
         onInitOrders(token, userId);

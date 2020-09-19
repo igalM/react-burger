@@ -8,21 +8,40 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-import styles from './BurgerBuilder.module.scss';
-import { RootState } from '../../store/reducers';
 import { Ingredients } from '../../types';
-import { RouteComponentProps } from 'react-router';
+import { useHistory } from 'react-router';
+import {
+    selectBurgerErrorState,
+    selectIngredientsState,
+    selectIsAuthenticatedState,
+    selectTotalPrice
+} from '../../store/reducers/selectors';
 
-const BurgerBuilder: React.FC<RouteComponentProps> = ({ history }) => {
+const styles = {
+    burgerBuilder: {
+        height: '100%',
+        display: 'flex',
+        flexFlow: 'column'
+    },
+    burger: {
+        height: '100%',
+        marginBottom: '20px',
+        display: 'flex',
+        overflow: 'auto'
+    }
+}
+
+const BurgerBuilder: React.FC = () => {
 
     const [purchasing, setPurchasing] = useState(false);
+    const history = useHistory();
+
+    const ingredients = useSelector(selectIngredientsState);
+    const totalPrice = useSelector(selectTotalPrice);
+    const error = useSelector(selectBurgerErrorState);
+    const isAuthenticated = useSelector(selectIsAuthenticatedState);
+
     const dispatch = useDispatch();
-
-    const ingredients = useSelector((state: RootState) => state.ingredientsReducer.ingredients);
-    const totalPrice = useSelector((state: RootState) => state.ingredientsReducer.totalPrice);
-    const error = useSelector((state: RootState) => state.ingredientsReducer.error);
-    const isAuthenticated = useSelector((state: RootState) => state.authReducer.token !== null);
-
     const onAddIngredient = (name: string) => dispatch(actionCreators.addIngredient(name));
     const onRemoveIngredient = (name: string) => dispatch(actionCreators.removeIngredient(name));
     const onInitPurchase = () => dispatch(actionCreators.initPurchase());
@@ -60,7 +79,7 @@ const BurgerBuilder: React.FC<RouteComponentProps> = ({ history }) => {
     let burger = error ? <p>Site broken!</p> : <Spinner />;
 
     if (ingredients) {
-        burger = <div className={styles.Burger}>
+        burger = <div style={styles.burger}>
             <Burger ingredients={ingredients} />
         </div>
 
@@ -83,7 +102,7 @@ const BurgerBuilder: React.FC<RouteComponentProps> = ({ history }) => {
     }
 
     return (
-        <div className={styles.BurgerBuilder}>
+        <div style={styles.burgerBuilder}>
             <Modal open={purchasing} closeHandler={purchaseCancelHandler}>
                 {orderSummary}
             </Modal>
