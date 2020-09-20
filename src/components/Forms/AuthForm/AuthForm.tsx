@@ -6,6 +6,15 @@ import { CustomButton } from '../../../components/UI/Button/Button';
 import { useDispatch } from 'react-redux';
 import * as actionsCreators from "../../../store/actions";
 import { User } from '../../../types';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => createStyles({
+    formClass: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+}));
+
 
 interface Props {
     isSignup: boolean;
@@ -13,7 +22,7 @@ interface Props {
 }
 
 const AuthForm: React.FC<Props> = ({ isSignup, changedMode }: Props) => {
-
+    const { formClass } = useStyles();
     const dispatch = useDispatch();
     const onSubmitAuth = (user: User) => dispatch(actionsCreators.auth(user));
 
@@ -35,7 +44,7 @@ const AuthForm: React.FC<Props> = ({ isSignup, changedMode }: Props) => {
             }}
             initialValues={values}
             validationSchema={validationSchema}>
-            <Form>
+            <Form className={formClass}>
                 <InputField formikKey="email" label="Your Email" />
                 <InputField formikKey="password" label="Your Password" type="password" />
                 <CustomButton

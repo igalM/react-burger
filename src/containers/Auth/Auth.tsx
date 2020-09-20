@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import styles from './Auth.module.scss';
 import * as actionsCreators from "../../store/actions";
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -12,8 +11,27 @@ import {
     selectAuthRedirectPathState
 } from '../../store/reducers/selectors';
 import AuthForm from '../../components/Forms/AuthForm/AuthForm';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) => createStyles({
+    auth: {
+        margin: '20px auto',
+        width: '80%',
+        textAlign: 'center',
+        boxShadow: '0 2px 3px #ccc',
+        border: '1px solid #eee',
+        padding: '10px',
+        boxSizing: 'border-box',
+        [theme.breakpoints.up('sm')]: {
+            width: '500px'
+        }
+    }
+}));
+
 
 const Auth: React.FC = () => {
+    const classes = useStyles();
+
     const [isSignup, setIsSignup] = useState(true);
     const [loadingAuthMode, setLoadingAuthMode] = useState(false);
 
@@ -48,7 +66,7 @@ const Auth: React.FC = () => {
     }
 
     return (
-        <div className={styles.Auth}>
+        <div className={classes.auth}>
             <h2>{isSignup ? 'Sign Up'
                 : 'Log In'}</h2>
             {authRedirect}

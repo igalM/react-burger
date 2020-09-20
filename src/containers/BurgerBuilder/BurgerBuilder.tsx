@@ -16,8 +16,9 @@ import {
     selectIsAuthenticatedState,
     selectTotalPrice
 } from '../../store/reducers/selectors';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
-const styles = {
+const useStyles = makeStyles((theme: Theme) => createStyles({
     burgerBuilder: {
         height: '100%',
         display: 'flex',
@@ -29,10 +30,10 @@ const styles = {
         display: 'flex',
         overflow: 'auto'
     }
-}
+}));
 
 const BurgerBuilder: React.FC = () => {
-
+    const classes = useStyles();
     const [purchasing, setPurchasing] = useState(false);
     const history = useHistory();
 
@@ -79,7 +80,7 @@ const BurgerBuilder: React.FC = () => {
     let burger = error ? <p>Site broken!</p> : <Spinner />;
 
     if (ingredients) {
-        burger = <div style={styles.burger}>
+        burger = <div className={classes.burger}>
             <Burger ingredients={ingredients} />
         </div>
 
@@ -102,7 +103,7 @@ const BurgerBuilder: React.FC = () => {
     }
 
     return (
-        <div style={styles.burgerBuilder}>
+        <div className={classes.burgerBuilder}>
             <Modal open={purchasing} closeHandler={purchaseCancelHandler}>
                 {orderSummary}
             </Modal>

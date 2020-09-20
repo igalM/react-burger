@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './CheckoutForm.module.scss';
 import { InputField } from '../../../components/UI/Input/Input';
 import { SelectField } from '../../../components/UI/Select/Select';
 import { CustomButton } from '../../../components/UI/Button/Button';
@@ -17,6 +16,32 @@ import {
 import { Order } from '../../../types';
 import * as actionsCreators from '../../../store/actions';
 import { useHistory } from 'react-router';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) => createStyles({
+    contactData: {
+        margin: '20px auto',
+        width: '90%',
+        boxShadow: '0 2px 3px #ccc',
+        border: '1px solid #eee',
+        padding: '1% 2%',
+        boxSizing: 'border-box',
+        [theme.breakpoints.up('sm')]: {
+            width: '500px'
+        }
+    },
+    title: {
+        textAlign: 'center'
+    },
+    formClass: {
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    cancelButton: {
+        display: 'flex'
+    }
+}));
+
 
 const deliveryMethods = [
     { value: 'fastest', displayName: 'Fastest' },
@@ -43,7 +68,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const CheckoutForm: React.FC = () => {
-
+    const classes = useStyles();
     const history = useHistory();
 
     const ingredients = useSelector(selectIngredientsState);
@@ -57,8 +82,8 @@ const CheckoutForm: React.FC = () => {
 
     const cancelOrder = () => history.push('/');
 
-    let form = <div className={styles.ContactData}>
-        <h4 className={styles.Title}>Enter your contact data</h4>
+    let form = <div className={classes.contactData}>
+        <h4 className={classes.title}>Enter your contact data</h4>
         <Formik
             onSubmit={(values) => {
                 if (userId && token) {
@@ -74,7 +99,7 @@ const CheckoutForm: React.FC = () => {
             }}
             initialValues={values}
             validationSchema={validationSchema}>
-            <Form>
+            <Form className={classes.formClass}>
                 <InputField formikKey="name" label="Your Name" />
                 <InputField formikKey="street" label="Your Street" />
                 <InputField formikKey="zipCode" type="number" label="ZIP Code" />
@@ -84,7 +109,7 @@ const CheckoutForm: React.FC = () => {
                 <CustomButton type="submit" className="success">ORDER</CustomButton>
             </Form>
         </Formik>
-        <div className={styles.CancelButton}>
+        <div className={classes.cancelButton}>
             <CustomButton type="submit" className="danger" onClick={cancelOrder}>CANCEL</CustomButton>
         </div>
     </div>

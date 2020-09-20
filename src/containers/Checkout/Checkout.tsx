@@ -7,8 +7,9 @@ import {
     selectPurchasedState,
 } from '../../store/reducers/selectors';
 import CheckoutForm from '../../components/Forms/CheckoutForm/CheckoutForm';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
-const styles = {
+const useStyles = makeStyles((theme: Theme) => createStyles({
     checkout: {
         display: 'flex',
         flexFlow: 'column'
@@ -19,12 +20,12 @@ const styles = {
         overflow: 'auto'
     },
     title: {
-        textAlign: 'center' as const
+        textAlign: 'center'
     }
-}
+}));
 
 const Checkout: React.FC = () => {
-
+    const classes = useStyles();
     const ingredients = useSelector(selectIngredientsState);
     const purchased = useSelector(selectPurchasedState);
 
@@ -32,16 +33,16 @@ const Checkout: React.FC = () => {
     if (ingredients) {
         const purchasedRedirect = purchased ? <Redirect to="/" /> : null;
         orderSummary = (
-            <div style={styles.burger}>
+            <div className={classes.burger}>
                 {purchasedRedirect}
-                <h1 style={styles.title}>We hope it tastes well!</h1>
+                <h1 className={classes.title}>We hope it tastes well!</h1>
                 <Burger ingredients={ingredients} />
             </div>
         );
     }
 
     return (
-        <div style={styles.checkout}>
+        <div className={classes.checkout}>
             {orderSummary}
             <CheckoutForm />
         </div>
