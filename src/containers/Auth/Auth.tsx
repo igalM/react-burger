@@ -42,13 +42,13 @@ const Auth: React.FC = () => {
     const isBuildingBurger = useSelector(selectIsBuildingBurgerState);
 
     const dispatch = useDispatch();
-    const onSetAuthRedirectPath = useCallback(() => dispatch(actionsCreators.setAuthRedirectPath('/')), [dispatch]);
+    const setAuthRedirectPath = useCallback(() => dispatch(actionsCreators.setAuthRedirectPath('/')), [dispatch]);
 
     useEffect(() => {
         if (!isBuildingBurger && authRedirectPath !== '/') {
-            onSetAuthRedirectPath();
+            setAuthRedirectPath();
         }
-    }, [onSetAuthRedirectPath, isBuildingBurger, authRedirectPath]);
+    }, [setAuthRedirectPath, isBuildingBurger, authRedirectPath]);
 
     const changeAuthModeHandler = () => {
         setLoadingAuthMode(true);

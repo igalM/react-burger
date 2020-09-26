@@ -43,10 +43,10 @@ const BurgerBuilder: React.FC = () => {
     const isAuthenticated = useSelector(selectIsAuthenticatedState);
 
     const dispatch = useDispatch();
-    const onAddIngredient = (name: string) => dispatch(actionCreators.addIngredient(name));
-    const onRemoveIngredient = (name: string) => dispatch(actionCreators.removeIngredient(name));
-    const onInitPurchase = () => dispatch(actionCreators.initPurchase());
-    const onSetAuthRedirectPath = (path: string) => dispatch(actionCreators.setAuthRedirectPath(path));
+    const addIngredient = (name: string) => dispatch(actionCreators.addIngredient(name));
+    const removeIngredient = (name: string) => dispatch(actionCreators.removeIngredient(name));
+    const initPurchase = () => dispatch(actionCreators.initPurchase());
+    const setAuthRedirectPath = (path: string) => dispatch(actionCreators.setAuthRedirectPath(path));
 
     const updatePurchasableState = (ingredients: Ingredients) => {
         const sum = Object.keys(ingredients)
@@ -59,7 +59,7 @@ const BurgerBuilder: React.FC = () => {
         if (isAuthenticated) {
             setPurchasing(true);
         } else {
-            onSetAuthRedirectPath('/checkout');
+            setAuthRedirectPath('/checkout');
             history.push('/auth');
         }
     }
@@ -67,7 +67,7 @@ const BurgerBuilder: React.FC = () => {
     const purchaseCancelHandler = () => setPurchasing(false);
 
     const purchaseContinuedHandler = () => {
-        onInitPurchase();
+        initPurchase();
         history.push('/checkout');
     }
 
@@ -85,9 +85,9 @@ const BurgerBuilder: React.FC = () => {
         </div>
 
         buildControls = <BuildControls
-            added={onAddIngredient}
-            removed={onRemoveIngredient}
-            disabled={disabled}
+            onAddIngredient={addIngredient}
+            onRemoveIngredient={removeIngredient}
+            btnDisabled={disabled}
             price={totalPrice}
             isAuthenticated={isAuthenticated}
             purchasable={updatePurchasableState(ingredients)}

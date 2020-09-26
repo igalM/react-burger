@@ -7,11 +7,11 @@ import { Redirect } from 'react-router-dom';
 const Logout: React.FC = () => {
 
     const dispatch = useDispatch();
-    const onLogout = useCallback(() => dispatch(actions.authLogout()), [dispatch]);
+    const logout = useCallback(() => dispatch(actions.authLogout()), [dispatch]);
 
     useEffect(() => {
-        onLogout();
-    }, [onLogout]);
+        logout();
+    }, [logout]);
 
     return <Redirect to="/" />
 }

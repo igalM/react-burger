@@ -7,7 +7,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const Modal: React.FC<Props> = ({ open, closeHandler, children }: Props) => {
+const Modal: React.FC<Props> = ({ open, closeHandler, children }) => {
     return <Dialog open={open} onClose={closeHandler}>
         {children}
     </Dialog>

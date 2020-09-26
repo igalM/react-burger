@@ -26,26 +26,20 @@ interface Props {
     date: string;
 }
 
-const Order: React.FC<Props> = ({ ingredients, price, date }: Props) => {
+const Order: React.FC<Props> = ({ ingredients, price, date }) => {
     const classes = useStyles();
 
-    const ings = [];
-    for (let igName in ingredients) {
-        ings.push({
-            ingredient: igName,
-            amount: ingredients[igName]
-        });
-    }
-    const output = ings.map(ig => {
-        return <span
-            key={ig.ingredient}
-            className={classes.span}>{ig.ingredient} ({ig.amount})
-        </span>
-    });
+    const ingredientList = Object.entries(ingredients).map(
+        ([ingredientName, ingredientAmount]) => (
+            <span key={ingredientName} className={classes.span}>
+                {`${ingredientName} (${ingredientAmount})`}
+            </span>
+        )
+    );
 
     return (
         <div className={classes.order}>
-            <p>Ingredients: {output}</p>
+            <p>Ingredients: {ingredientList}</p>
             <p>Price: <strong>USD {price.toFixed(2)}</strong></p>
             <p>Date Ordered: {date}</p>
         </div>

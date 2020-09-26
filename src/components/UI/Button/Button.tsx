@@ -1,42 +1,42 @@
-import React from 'react';
-import clsx from 'clsx';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { green, brown } from '@material-ui/core/colors';
+import Button, { ButtonProps } from "@material-ui/core/Button";
+import { brown, green } from "@material-ui/core/colors";
 
-interface Props {
-    className: string;
-    children: React.ReactNode;
-}
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() => createStyles({
-    root: {
-        width: '180px',
-        margin: '15px auto',
-        color: '#fff'
-    },
-    greenButton: {
-        backgroundColor: green[700],
-        '&:hover': {
-            backgroundColor: green[800],
+export type CustomButtonProps = Omit<ButtonProps, "color"> & {
+    color: "green" | "brown";
+};
+
+const buttonColors = {
+    green: green[700],
+    brown: brown[700],
+};
+
+const buttonHoverColors = {
+    green: green[800],
+    brown: brown[800],
+};
+
+const useStyles = makeStyles({
+    root: ({ color }: CustomButtonProps) => ({
+        width: "180px",
+        margin: "15px auto",
+        color: "#fff",
+        backgroundColor: buttonColors[color],
+        "&:hover": {
+            backgroundColor: buttonHoverColors[color],
         },
-    },
-    brownButton: {
-        backgroundColor: brown[700],
-        '&:hover': {
-            backgroundColor: brown[800],
-        },
-    }
-}));
+    }),
+});
 
-export const CustomButton: React.FC<Props & React.HTMLProps<HTMLButtonElement>> = ({ children, className, ...props }: Props) => {
-    const classes = useStyles();
-    return <Button
-        variant="contained"
-        className={clsx(classes.root, {
-            [classes.greenButton]: className === "success",
-            [classes.brownButton]: className === "danger"
-        })}
-        {...props}>
-        {children}</Button>
-}
+export const CustomButton: React.FC<CustomButtonProps> = ({
+    color,
+    ...props
+}) => (
+        <Button
+            className={useStyles({ color }).root}
+            variant="contained"
+            {...props}
+        />
+    );

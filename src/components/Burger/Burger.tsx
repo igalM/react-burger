@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BreadType, Ingredients } from '../../types';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -23,21 +23,27 @@ interface Props {
     ingredients: Ingredients;
 }
 
-const Burger = ({ ingredients }: Props) => {
+const mapIngredientsToComponents = (ingredients: Ingredients) =>
+    Object.entries(ingredients).flatMap(([ingredientName, ingredientAmount]) =>
+        Array.from({ length: ingredientAmount }, (_, index) => (
+            <BurgerIngredient
+                key={`${ingredientName}${index}`}
+                type={ingredientName}
+            />
+        ))
+    );
+
+const Burger: React.FC<Props> = ({ ingredients }) => {
     const { burger } = useStyles();
-    const ings = Object.keys(ingredients)
-        .map(ingredientKey => {
-            return [...Array(ingredients[ingredientKey])]
-                .map((x, i) => <BurgerIngredient
-                    key={ingredientKey + i} type={ingredientKey}
-                />)
-        })
-        .reduce((acc, v) => acc.concat(v), [])
+    const ingredientComponents = useMemo(
+        () => mapIngredientsToComponents(ingredients),
+        [ingredients]
+    );
 
     return (
         <div className={burger}>
             <BurgerIngredient type={BreadType.BreadTop} />
-            {ings.length === 0 ? <p>Please start adding ingredients</p> : ings}
+            {ingredientComponents.length === 0 ? <p>Please start adding ingredients</p> : ingredientComponents}
             <BurgerIngredient type={BreadType.BreadBottom} />
         </div>
     );

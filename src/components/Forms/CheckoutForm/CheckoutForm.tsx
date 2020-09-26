@@ -48,7 +48,7 @@ const deliveryMethods = [
     { value: 'cheapest', displayName: 'Cheapest' }
 ];
 
-const values = { name: '', street: '', zipCode: '', country: '', email: '', deliveryMethod: 'fastest' };
+const initialValues = { name: '', street: '', zipCode: '', country: '', email: '', deliveryMethod: 'fastest' };
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -78,11 +78,13 @@ const CheckoutForm: React.FC = () => {
     const userId = useSelector(selectUserIdState);
 
     const dispatch = useDispatch();
-    const onOrderBurger = (order: Order, token: string) => dispatch(actionsCreators.purchaseBurger(order, token))
+    const orderBurger = (order: Order, token: string) => dispatch(actionsCreators.purchaseBurger(order, token))
 
     const cancelOrder = () => history.push('/');
 
-    let form = <div className={classes.contactData}>
+    if (loading) return <Spinner />;
+
+    const form = <div className={classes.contactData}>
         <h4 className={classes.title}>Enter your contact data</h4>
         <Formik
             onSubmit={(values) => {
@@ -94,10 +96,10 @@ const CheckoutForm: React.FC = () => {
                         userId: userId,
                         userInfo: values
                     };
-                    onOrderBurger(order, token);
+                    orderBurger(order, token);
                 }
             }}
-            initialValues={values}
+            initialValues={initialValues}
             validationSchema={validationSchema}>
             <Form className={classes.formClass}>
                 <InputField formikKey="name" label="Your Name" />
@@ -106,17 +108,13 @@ const CheckoutForm: React.FC = () => {
                 <InputField formikKey="country" label="Country" />
                 <InputField formikKey="email" label="Your Email" />
                 <SelectField formikKey="deliveryMethod" options={deliveryMethods} />
-                <CustomButton type="submit" className="success">ORDER</CustomButton>
+                <CustomButton type="submit" color="green">ORDER</CustomButton>
             </Form>
         </Formik>
         <div className={classes.cancelButton}>
-            <CustomButton type="submit" className="danger" onClick={cancelOrder}>CANCEL</CustomButton>
+            <CustomButton type="submit" color="brown" onClick={cancelOrder}>CANCEL</CustomButton>
         </div>
     </div>
-
-    if (loading) {
-        form = <Spinner />
-    }
 
     return form;
 }

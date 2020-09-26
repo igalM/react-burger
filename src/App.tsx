@@ -14,11 +14,11 @@ const Auth = lazy(() => import('./containers/Auth/Auth'));
 const App = () => {
   const isAuthenticated = useSelector((state: RootState) => state.authReducer.token !== null);
   const dispatch = useDispatch();
-  const onTryAutomaticSignIn = useCallback(() => dispatch(actions.checkAuthState()), [dispatch]);
+  const tryAutomaticSignIn = useCallback(() => dispatch(actions.checkAuthState()), [dispatch]);
 
   useEffect(() => {
-    onTryAutomaticSignIn();
-  }, [onTryAutomaticSignIn]);
+    tryAutomaticSignIn();
+  }, [tryAutomaticSignIn]);
 
   let routes = <Switch>
     <Route path="/auth" component={Auth} />

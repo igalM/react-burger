@@ -4,19 +4,19 @@ import styles from './Control.module.scss';
 interface Props {
     label: string;
     disabled: boolean;
-    removed: () => {};
-    added: () => {};
+    onRemoveIngredient: () => {};
+    onAddIngredient: () => {};
 }
 
-const Control: React.FC<Props> = ({ label, disabled, removed, added }: Props) => (
+const Control: React.FC<Props> = ({ label, disabled, onRemoveIngredient, onAddIngredient }) => (
     <div className={styles.Control}>
         <div className={styles.Label}>{label}</div>
         <button
             disabled={disabled}
-            onClick={removed}
+            onClick={onRemoveIngredient}
             className={styles.Less}>Less</button>
         <button
-            onClick={added}
+            onClick={onAddIngredient}
             className={styles.More}>More</button>
     </div>
 )

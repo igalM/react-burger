@@ -21,7 +21,7 @@ interface Props {
     isAuthenticated: boolean;
 }
 
-const NavigationItems: React.FC<Props> = ({ isAuthenticated }: Props) => {
+const NavigationItems: React.FC<Props> = ({ isAuthenticated }) => {
     const { navigationItems } = useStyles();
     let authenticatedRoutes = <ul className={navigationItems}>
         <NavigationItem link="/" exact>Burger Builder</NavigationItem>

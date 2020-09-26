@@ -14,14 +14,14 @@ interface Props {
     isAuthenticated: boolean;
 }
 
-const drawerWidth = 240;
+const DRAWER_WIDTH = 240;
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     root: {
         display: 'flex',
     },
     drawer: {
-        width: drawerWidth,
+        width: DRAWER_WIDTH,
         flexShrink: 0,
     },
     appBar: {
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-        width: drawerWidth,
+        width: DRAWER_WIDTH,
     },
     drawerStyles: {
         paddingLeft: '15px',
@@ -64,13 +64,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     }
 }));
 
-const ResponsiveDrawer: React.FC<Props> = ({ isAuthenticated }: Props) => {
+const ResponsiveDrawer: React.FC<Props> = ({ isAuthenticated }) => {
     const classes = useStyles();
-    const drawerContext = useContext(DrawerContext);
+    const { toggleDrawer, showDrawer } = useContext(DrawerContext);
 
-    const handleDrawerToggle = () => {
-        drawerContext.toggleDrawer();
-    }
+    const handleDrawerToggle = () => toggleDrawer();
     const drawer = (
         <div className={classes.drawerStyles}>
             <div className={classes.toolbar} />
@@ -105,8 +103,8 @@ const ResponsiveDrawer: React.FC<Props> = ({ isAuthenticated }: Props) => {
                     <Drawer
                         variant="temporary"
                         anchor="left"
-                        open={drawerContext.showDrawer}
-                        onClose={drawerContext.toggleDrawer}
+                        open={showDrawer}
+                        onClose={toggleDrawer}
                         classes={{
                             paper: classes.drawerPaper
                         }}

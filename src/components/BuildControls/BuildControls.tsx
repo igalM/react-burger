@@ -5,11 +5,11 @@ import Control from './Control/Control';
 
 interface Props {
     price: number;
-    disabled: Ingredients;
+    btnDisabled: Ingredients;
     purchasable: boolean;
     isAuthenticated: boolean;
-    added: (type: string) => {};
-    removed: (type: string) => {};
+    onAddIngredient: (type: string) => {};
+    onRemoveIngredient: (type: string) => {};
     orderBtnClick: () => void;
 }
 
@@ -20,24 +20,24 @@ const controls = [
     { label: 'Bacon', type: 'bacon' }
 ]
 
-const BuildControls = ({
+const BuildControls: React.FC<Props> = ({
     price,
-    added,
-    removed,
-    disabled,
+    onAddIngredient,
+    onRemoveIngredient,
+    btnDisabled,
     orderBtnClick,
     purchasable,
     isAuthenticated
-}: Props) => (
+}) => (
         <div className={styles.BuildControls}>
             <p>Current Price: <strong>{price.toFixed(2)}</strong></p>
             {controls.map(ctrl => (
                 <Control
                     key={ctrl.label}
                     label={ctrl.label}
-                    added={() => added(ctrl.type)}
-                    removed={() => removed(ctrl.type)}
-                    disabled={disabled[ctrl.type] === 0}
+                    onAddIngredient={() => onAddIngredient(ctrl.type)}
+                    onRemoveIngredient={() => onRemoveIngredient(ctrl.type)}
+                    disabled={btnDisabled[ctrl.type] === 0}
                 />
             ))}
             <button

@@ -20,24 +20,27 @@ interface Props {
     cancel: () => void;
 }
 
-const OrderSummary: React.FC<Props> = ({ ingredients, price, continuePurchase, cancel }: Props) => {
+const OrderSummary: React.FC<Props> = ({ ingredients, price, continuePurchase, cancel }) => {
     const classes = useStyles();
-    const ings = Object.keys(ingredients)
-        .map(key => {
-            return <li key={key}><strong>{key}: </strong>{ingredients[key]}</li>;
-        });
+    const ingredientNames = Object.entries(ingredients)
+        .map(([ingredientName, ingredientAmount]) => (
+            <li key={ingredientName}>
+                <strong>{ingredientName}: </strong>
+                {ingredientAmount}
+            </li>
+        ));
 
     return (
         <div className={classes.orderSummary}>
             <h3>Your Order Summary</h3>
             <p>A delicious burger with the following ingredients:</p>
             <ul>
-                {ings}
+                {ingredientNames}
             </ul>
             <p><strong>Total Price: {price.toFixed(2)}</strong></p>
             <div className={classes.buttons}>
-                <CustomButton onClick={continuePurchase} className="success">CONTINUE</CustomButton>
-                <CustomButton onClick={cancel} className="danger">CANCEL</CustomButton>
+                <CustomButton onClick={continuePurchase} color="green">CONTINUE</CustomButton>
+                <CustomButton onClick={cancel} color="brown">CANCEL</CustomButton>
             </div>
         </div >
     );

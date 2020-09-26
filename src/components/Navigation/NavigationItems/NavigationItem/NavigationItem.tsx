@@ -55,12 +55,11 @@ interface Props {
     children: React.ReactNode
 }
 
-const NavigationItem: React.FC<Props> = ({ exact, link, children }: Props) => {
+const NavigationItem: React.FC<Props> = ({ exact, link, children }) => {
     const classes = useStyles();
 
-    const toggle = useContext(DrawerContext).toggleDrawer;
-    const isMobile = useContext(DrawerContext).isMobile;
-    const handleLinkClicked = () => isMobile ? toggle() : null;
+    const { toggleDrawer, isMobile } = useContext(DrawerContext);
+    const handleLinkClicked = () => isMobile ? toggleDrawer() : null;
 
     return <li className={classes.navigationItem}>
         <NavLink

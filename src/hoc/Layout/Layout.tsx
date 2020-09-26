@@ -9,13 +9,13 @@ import { RootState } from '../../store/reducers';
 const Layout: React.FC = ({ children }) => {
 
     const dispatch = useDispatch();
-    const onInitIngredients = useCallback(() => dispatch(actionCreators.fetchIngredients()), [dispatch]);
+    const initIngredients = useCallback(() => dispatch(actionCreators.fetchIngredients()), [dispatch]);
 
     const isAuthenticated = useSelector((state: RootState) => state.authReducer.token !== null);
 
     useEffect(() => {
-        onInitIngredients();
-    }, [onInitIngredients]);
+        initIngredients();
+    }, [initIngredients]);
 
     return (
         <DrawerProvider>

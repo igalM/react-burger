@@ -5,7 +5,7 @@ interface Props {
     type: string;
 }
 
-const BurgerIngredient: React.FC<Props> = ({ type }: Props) => {
+const BurgerIngredient: React.FC<Props> = ({ type }) => {
 
     let ingredient = null;
 

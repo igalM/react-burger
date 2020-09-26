@@ -9,17 +9,18 @@ import { selectOrdersLoadingState, selectOrdersState, selectTokenState, selectUs
 
 const Orders: React.FC = () => {
 
-    const dispatch = useDispatch();
-    const onInitOrders = useCallback((token, userId) => dispatch(actionCreators.fetchOrders(token, userId)), [dispatch]);
-
     const orders = useSelector(selectOrdersState);
     const loading = useSelector(selectOrdersLoadingState);
     const token = useSelector(selectTokenState);
     const userId = useSelector(selectUserIdState);
 
+
+    const dispatch = useDispatch();
+    const initOrders = useCallback((token, userId) => dispatch(actionCreators.fetchOrders(token, userId)), [dispatch]);
+
     useEffect(() => {
-        onInitOrders(token, userId);
-    }, [token, userId, onInitOrders])
+        initOrders(token, userId);
+    }, [token, userId, initOrders])
 
     const userOrders = orders.map(item => (
         <Order
