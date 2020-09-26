@@ -1,6 +1,6 @@
 import React from 'react';
-import { Ingredients } from '../../../types';
-import { CustomButton } from '../../UI/Button/Button';
+import { Ingredients } from '../../types';
+import { CustomButton } from '../UI/Button/Button';
 import { makeStyles, createStyles, } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => createStyles({

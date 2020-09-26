@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ingredients } from '../../../types';
+import { Ingredients } from '../../types';
 import styles from './BuildControls.module.scss';
 import Control from './Control/Control';
 
