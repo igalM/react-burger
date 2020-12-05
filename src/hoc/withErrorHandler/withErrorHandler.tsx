@@ -3,12 +3,12 @@ import React, { Fragment } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import useHttpError from '../../hooks/http-error';
 
-function withErrorHandler<C>(WrappedComponent: React.ComponentType<C>, axios: AxiosInstance) {
-    return (props: C) => {
+const WithErrorHandler = <C extends object>(
+    WrappedComponent: React.ComponentType<C>,
+    axios: AxiosInstance) => {
+    const WithModal: React.FC<C> = (props: C) => {
         const [error, closeModal] = useHttpError(axios);
-
         const closeHandler = () => closeModal;
-
         return (
             <Fragment>
                 <Modal open={error ? true : false} closeHandler={closeHandler}>
@@ -16,8 +16,9 @@ function withErrorHandler<C>(WrappedComponent: React.ComponentType<C>, axios: Ax
                 </Modal>
                 <WrappedComponent {...props} />
             </Fragment>
-        )
+        );
     }
+    return WithModal;
 }
 
-export default withErrorHandler;
+export default WithErrorHandler;

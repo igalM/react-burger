@@ -5,7 +5,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import WithErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import { Ingredients } from '../../types';
@@ -113,5 +113,5 @@ const BurgerBuilder: React.FC = () => {
     );
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+export default WithErrorHandler(BurgerBuilder, axios);
 

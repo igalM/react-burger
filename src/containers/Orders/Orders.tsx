@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Order from '../../components/Order/Order';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import WithErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from "../../store/actions";
 import { selectOrdersLoadingState, selectOrdersState, selectTokenState, selectUserIdState } from '../../store/reducers/selectors';
@@ -37,4 +37,4 @@ const Orders: React.FC = () => {
     );
 }
 
-export default withErrorHandler(Orders, axios);
+export default WithErrorHandler(Orders, axios);
